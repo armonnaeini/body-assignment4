@@ -1,12 +1,10 @@
 
 class FaceMeshX {
-    constructor(x,y, sil, predictions /*keyPoints*/){
+    constructor(x,y, sil, predictions){
         this.x = x;
         this.y = y;
         this.sil = [...sil];
         this.silPoints = [];
-        // this.predictions = [...predictions];
-        // this.keyPoints = [];
     }
 
 
@@ -35,7 +33,6 @@ class FaceMeshX {
     display() {
         strokeWeight(2);
         beginShape();
-
         for (let a = 0; a < this.silPoints.length; a++) {
             curveVertex(this.silPoints[a][0], this.silPoints[a][1]);
         }
