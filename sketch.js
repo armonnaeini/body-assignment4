@@ -4,13 +4,16 @@ let p5livemedia;
 /**ml5 stuff**/
 let myPredictions = [];
 let partnerPredictions = [];
-let max = 70;
+let myMax = 40;
+let partnerMax = 20;
+
 
 /**facemesh stuff**/
 let myFaceMesh;
 let myFaces = [];
 let partnerFaces = [];
 let faceMeshArray = [];
+let partnerFaceMeshArray = [];
 let facemesh;
 
 function setup() {
@@ -42,22 +45,34 @@ function gotPartnerPredictions(data, id) {
 
 function draw() {
   background(255);
-
-  /** draw faces **/
+  /** draw MYFACES **/
   for (let i = 0; i < faceMeshArray.length; i++) {
-    faceMeshArray[i].display();
+    faceMeshArray[i].display(240, 157, 30);
   }
   /** splice some shit */
-  for (let j = 0; j < max; j++) {
-    if (faceMeshArray.length < max) {
+  for (let j = 0; j < myMax; j++) {
+    if (faceMeshArray.length < myMax) {
       faceMeshArray[j];
     } else {
       faceMeshArray.splice(0,1);
     }
   }
+  
+  /** draw PARTNERFACES **/
+  for (let i = 0; i < partnerFaceMeshArray.length; i++) {
+    partnerFaceMeshArray[i].display(0, 255, 150);
+  }
 
+  /** splice some partner shit */
+  for (let j = 0; j < partnerMax; j++) {
+    if (partnerFaceMeshArray.length < partnerMax) {
+      partnerFaceMeshArray[j];
+    } else {
+      partnerFaceMeshArray.splice(0,1);
+    }
+  }
   updateFacesNew(myPredictions);
-  // updateFaces(partnerPredictions);
+  partnerUpdateFacesNew(partnerPredictions);
 }
 
 function updateFacesNew(pred) {
@@ -70,6 +85,19 @@ function updateFacesNew(pred) {
   newMesh.calculate();
   faceMeshArray.push(newMesh);
 }
+
+function partnerUpdateFacesNew(pred) {
+  if (pred.length < 1) {
+    console.log('empty');
+    return;
+  }
+  const silhoutte = pred[0].annotations['silhouette'];
+  let newMesh = new FaceMeshX(0,0, silhoutte);
+  newMesh.calculate();
+  partnerFaceMeshArray.push(newMesh);
+}
+
+
 
 /*
 function updateFaces() {

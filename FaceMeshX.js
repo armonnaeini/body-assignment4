@@ -30,7 +30,8 @@ class FaceMeshX {
         }
     }
 
-    display() {
+    display(col, col2, col3) {
+        fill(col, col2, col3);
         strokeWeight(2);
         beginShape();
         for (let a = 0; a < this.silPoints.length; a++) {
